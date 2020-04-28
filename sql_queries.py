@@ -52,7 +52,7 @@ artist_table_create = ("""
         (
           artist_id VARCHAR PRIMARY KEY,
           name VARCHAR NOT NULL,
-          location VARCHAR NOT NULL,
+          location VARCHAR,
           latitude FLOAT,
           longitude FLOAT
         )
@@ -87,8 +87,11 @@ song_table_insert = ("""
 """)
 
 artist_table_insert = ("""
+        INSERT INTO artists (artist_id, name, location, latitude, longitude)
+        VALUES (%s, %s, %s, %s, %s)
+        ON CONFLICT (artist_id)
+        DO NOTHING;
 """)
-
 
 # Do nothing if existing record already exists.
 time_table_insert = ("""
