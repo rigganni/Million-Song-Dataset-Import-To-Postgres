@@ -9,19 +9,19 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
 
+# Adapted SERIAL primary key from https://knowledge.udacity.com/questions/101717
 songplay_table_create = ("""
         CREATE TABLE IF NOT EXISTS songplays
         (
-          songplay_id VARCHAR,
+          songplay_id SERIAL PRIMARY KEY,
           start_time TIMESTAMP NOT NULL,
           user_id INT,
           level VARCHAR NOT NULL,
-          song_id VARCHAR NOT NULL,
-          artist_id VARCHAR NOT NULL,
+          song_id VARCHAR,
+          artist_id VARCHAR,
           session_id INT,
           location VARCHAR NOT NULL,
-          user_agent VARCHAR NOT NULL,
-          PRIMARY KEY (songplay_id, user_id, session_id)
+          user_agent VARCHAR NOT NULL
         )
 """)
 
@@ -74,6 +74,8 @@ time_table_create = ("""
 # INSERT RECORDS
 
 songplay_table_insert = ("""
+        INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
 """)
 
 user_table_insert = ("""
@@ -108,6 +110,16 @@ time_table_insert = ("""
 # FIND SONGS
 
 song_select = ("""
+        SELECT songs.song_id,
+               artists.artist_id
+        FROM  songs
+          INNER JOIN artists
+            ON songs.artist_id = artists.artist_id
+        WHERE songs.title = %s
+              AND
+              artists.name = %s
+              AND
+              songs.duration = %s
 """)
 
 # QUERY LISTS
