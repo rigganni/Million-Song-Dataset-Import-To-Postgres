@@ -1,11 +1,11 @@
 # Modeled PostGres types based on http://millionsongdataset.com/pages/field-list
 # DROP TABLES
 
-songplay_table_drop = "DROP TABLE songplays"
-user_table_drop = "DROP TABLE users"
-song_table_drop = "DROP TABLE songs"
-artist_table_drop = "DROP TABLE artists"
-time_table_drop = "DROP TABLE time"
+songplay_table_drop = "DROP TABLE IF EXISTS songplays"
+user_table_drop = "DROP TABLE IF EXISTS users"
+song_table_drop = "DROP TABLE IF EXISTS songs"
+artist_table_drop = "DROP TABLE IF EXISTS artists"
+time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
 
@@ -65,9 +65,9 @@ time_table_create = ("""
           hour SMALLINT NOT NULL,
           day SMALLINT NOT NULL,
           week SMALLINT NOT NULL,
-          month VARCHAR NOT NULL,
+          month SMALLINT NOT NULL,
           year SMALLINT NOT NULL,
-          weekday VARCHAR NOT NULL
+          weekday SMALLINT NOT NULL
         )
 """)
 
@@ -86,7 +86,12 @@ artist_table_insert = ("""
 """)
 
 
+# Do nothing if existing record already exists.
 time_table_insert = ("""
+        INSERT INTO time (start_time, hour, day, week, month, year, weekday)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        ON CONFLICT (start_time)
+        DO NOTHING;
 """)
 
 # FIND SONGS
