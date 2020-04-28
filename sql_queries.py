@@ -1,26 +1,74 @@
+# Modeled PostGres types based on http://millionsongdataset.com/pages/field-list
 # DROP TABLES
 
-songplay_table_drop = ""
-user_table_drop = ""
-song_table_drop = ""
-artist_table_drop = ""
-time_table_drop = ""
+songplay_table_drop = "DROP TABLE songplays"
+user_table_drop = "DROP TABLE users"
+song_table_drop = "DROP TABLE songs"
+artist_table_drop = "DROP TABLE artists"
+time_table_drop = "DROP TABLE time"
 
 # CREATE TABLES
 
 songplay_table_create = ("""
+        CREATE TABLE IF NOT EXISTS songplays
+        (
+          songplay_id VARCHAR,
+          start_time TIMESTAMP NOT NULL,
+          user_id INT,
+          level VARCHAR NOT NULL,
+          song_id VARCHAR NOT NULL,
+          artist_id VARCHAR NOT NULL,
+          session_id INT,
+          location VARCHAR NOT NULL,
+          user_agent VARCHAR NOT NULL,
+          PRIMARY KEY (songplay_id, user_id, session_id)
+        )
 """)
 
 user_table_create = ("""
+        CREATE TABLE IF NOT EXISTS users
+        (
+          user_id INT PRIMARY KEY,
+          first_name VARCHAR NOT NULL,
+          last_name VARCHAR NOT NULL,
+          gender CHAR(1) NOT NULL,
+          level VARCHAR NOT NULL
+        )
 """)
 
 song_table_create = ("""
+        CREATE TABLE IF NOT EXISTS songs
+        (
+          song_id VARCHAR PRIMARY KEY,
+          title VARCHAR NOT NULL,
+          artist_id VARCHAR NOT NULL,
+          year SMALLINT NOT NULL,
+          duration REAL NOT NULL
+        )
 """)
 
 artist_table_create = ("""
+        CREATE TABLE IF NOT EXISTS artists
+        (
+          artist_id VARCHAR PRIMARY KEY,
+          name VARCHAR NOT NULL,
+          location VARCHAR NOT NULL,
+          latitude FLOAT,
+          longitude FLOAT
+        )
 """)
 
 time_table_create = ("""
+        CREATE TABLE IF NOT EXISTS time
+        (
+          start_time TIMESTAMP PRIMARY KEY,
+          hour SMALLINT NOT NULL,
+          day SMALLINT NOT NULL,
+          week SMALLINT NOT NULL,
+          month VARCHAR NOT NULL,
+          year SMALLINT NOT NULL,
+          weekday VARCHAR NOT NULL
+        )
 """)
 
 # INSERT RECORDS
