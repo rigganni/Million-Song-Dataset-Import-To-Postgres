@@ -21,12 +21,27 @@ The database will be used for analysis only (OLAP) so utilized a star schema wit
   * songs
   * artists
   * time
-  
+
  Using this design will reduce slow joins and return SQL queries to analysts much quicker.
  
 ### ETL
 
 The python module pandas was used to perform JSON data ingestion and transformation. It simplifies the both extracting and trasforming the data with the use of dataframe objects. Loading the data was done by PSQL INSERT queries.
+
+## Files
+
+* conda-requirements.yml
+  * Anaconda yaml file to create environment with correct Python modules
+* create_tables.py
+  * Creates or recreates sparkifydb and required objects
+* etl.ipynb
+  * Jupyter notebook used to develop ETL
+* etl.py
+  * Used to ETL full dataset in Postgres database sparkifydb
+* sql_queries.py
+  * All sql queries used for ETL are stored here
+* test.ipynb
+  * Test file to ensure correct records loaded to tables in sparkifydb
 
 ## Installation
 
