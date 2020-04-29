@@ -4,6 +4,19 @@ from os import environ
 
 
 def create_database():
+    """
+    Create sparkifydb Postgres database.
+
+    Note: host, user, password should be set up to your local environment.
+
+    Parameters:
+    None
+
+    Returns:
+    cur (psycopg2.cursor): Postgres cursor to sparkifydb
+    conn (psycopg2.connection): Postgres connection to sparkifydb
+    """
+
     # Get local development environment variables
     if environ.get("UDACITY_DATA_ENGINEER_POSTGRES_INSTANCE"):
         host = environ.get("UDACITY_DATA_ENGINEER_POSTGRES_INSTANCE")
@@ -31,18 +44,50 @@ def create_database():
 
 
 def drop_tables(cur, conn):
+    """
+    Drop all existing tables in sparkifydb.
+
+    Parameters:
+    cur (psycopg2.cursor): Postgres cursor to sparkifydb
+    conn (psycopg2.connection): Postgres connection to sparkifydb
+
+    Returns:
+    None
+    """
+
     for query in drop_table_queries:
         cur.execute(query)
         conn.commit()
 
 
 def create_tables(cur, conn):
+    """
+    Create tables in sparkifydb.
+
+    Parameters:
+    cur (psycopg2.cursor): Postgres cursor to sparkifydb
+    conn (psycopg2.connection): Postgres connection to sparkifydb
+
+    Returns:
+    None
+    """
+
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()
 
 
 def main():
+    """
+    Create or recreate sparkify db with all necessary objects.
+
+    Parameters:
+    None
+
+    Returns:
+    None
+    """
+
     cur, conn = create_database()
 
     drop_tables(cur, conn)
